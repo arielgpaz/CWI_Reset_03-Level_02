@@ -6,7 +6,8 @@ public class QuantidadeMinimaItem {
         }
 
         if ("torta".equals(item)) {
-            return ItensPorQuantidade.torta < 10;
+            int fatias = ItensPorQuantidade.torta * 16;
+            return fatias < 10;
         }
 
         if ("sanduba".equals(item)) {
