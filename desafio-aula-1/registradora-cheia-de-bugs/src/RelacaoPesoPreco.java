@@ -1,6 +1,6 @@
 public class RelacaoPesoPreco {
 
-    public static double retornaPrecoProduto(String item, int qtd) {
+    public static double retornaPrecoProduto(String item, double qtd) {
         double precoTotal = 0;
 
         if ("pao".equals(item)) {
