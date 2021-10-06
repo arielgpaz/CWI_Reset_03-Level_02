@@ -2,7 +2,7 @@
 public class Registradora {
 
     public static void main(String[] args) {
-        primeiroBug();
+//        primeiroBug();
 //
 //        segundoBug();
 //
@@ -15,21 +15,56 @@ public class Registradora {
 //        sextoBug();
     }
 
-    private static double registrarItem(String item, int quantidade) {
-        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+    private static double registrarItem(String item, double quantidade) {
+        double precoItem = 0;
 
         if (QuantidadeMinimaItem.precisaReposicao(item)) {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
+                if (DataProjeto.cozinhaEmFuncionamento()) {
+                    ReposicaoCozinha.reporItem(item);
+                }
+            }
+            if ("leite".equals(item) || "cafe".equals(item)) {
+                ReposicaoFornecedor.reporItem(item);
+            }
+        }
+
+        if (ItensPorQuantidade.estoqueSuficiente(item, quantidade)) {
+            precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            ItensPorQuantidade.atualizarSaldoEstoque(item, quantidade);
+        } else {
+            if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
                     System.out.println("Cozinha fechada!");
+                    System.out.println("A quantidade de " + item + " disponível é: "
+                            + ItensPorQuantidade.retornarQuantidadeEstoque(item));
                 }
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, ItensPorQuantidade.retornarQuantidadeEstoque(item));
                 ReposicaoCozinha.reporItem(item);
             }
 
             if ("leite".equals(item) || "cafe".equals(item)) {
                 ReposicaoFornecedor.reporItem(item);
+
+                //Avalia se reposição foi suficiente para atender cliente, senão vende apenas o que está no estoque.
+                if ("leite".equals(item) && ItensPorQuantidade.leite > quantidade){
+                    precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+                }
+                else if ("leite".equals(item)) {
+                    System.out.println("A quantidade de leite disponível é: " + ItensPorQuantidade.retornarQuantidadeEstoque(item));
+                    precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, ItensPorQuantidade.leite);
+                }
+                if ("cafe".equals(item) && ItensPorQuantidade.cafe > quantidade){
+                    precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+                }
+                else if ("cafe".equals(item)) {
+                    System.out.println("A quantidade de café disponível é: " + ItensPorQuantidade.retornarQuantidadeEstoque(item));
+                    precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, ItensPorQuantidade.cafe);
+                }
             }
         }
+
+
 
         return precoItem;
     }
