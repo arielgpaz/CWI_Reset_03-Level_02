@@ -13,6 +13,7 @@ public class Filme {
         this.duracao = duracao;
         this.anoLancamento = anoLancamento;
         this.avaliacao = avaliacao;
+        Diretor diretor = new Diretor("Ariel", 25,5);
     }
 
     public String getNome() {
@@ -43,6 +44,7 @@ public class Filme {
         System.out.println("Nome do filme: " + this.nome);
         System.out.println("Descrição: " + this.descricao);
         System.out.println("Duração: " + this.duracao);
+        System.out.println("Diretor: " );
     }
 
 }

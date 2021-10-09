@@ -1,6 +1,6 @@
 public class Diretor {
 
-    private String nome;
+    public String nome;
     private int idade;
     private int quantidadeFilmesDigiridos;
 
