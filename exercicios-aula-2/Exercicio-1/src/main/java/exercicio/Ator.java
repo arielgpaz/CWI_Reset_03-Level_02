@@ -1,17 +1,11 @@
 package exercicio;
 
-public class Ator {
+public class Ator extends Pessoa {
 
-    private String nome;
-    private Integer idade;
     private Integer numeroOscarsVencidos;
-    private Genero genero;
 
     public Ator(String nome, Integer idade, Integer numeroOscarsVencidos, Genero genero) {
-        this.nome = nome;
-        this.idade = idade;
+        super(nome, idade, genero);
         this.numeroOscarsVencidos = numeroOscarsVencidos;
-        this.genero = genero;
     }
-
 }
