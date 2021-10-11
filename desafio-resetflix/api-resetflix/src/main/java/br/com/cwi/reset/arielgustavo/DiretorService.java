@@ -2,25 +2,25 @@ package br.com.cwi.reset.arielgustavo;
 
 import java.util.List;
 
-public class AtorService {
+public class DiretorService {
 
     private FakeDatabase fakeDatabase;
 
-    public AtorService(FakeDatabase fakeDatabase) {
+    public DiretorService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
     }
 
     // Demais métodos da classe
-    public void criarAtor(AtorRequest atorRequest) {
+    public void cadastrarDiretor(DiretorRequest diretorRequest) {
 
     }
 
-    public List<Ator> listarAtoresEmAtividade(String filtroNome) {
+    public List<Diretor> listarDiretores(String filtroNome) {
 
         return null;
     }
 
-    public Ator consultarAtor(Integer id) {
+    public Diretor consultarDiretor(Integer id) {
 
         return null;
     }
