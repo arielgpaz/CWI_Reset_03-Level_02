@@ -1,12 +1,12 @@
 package br.com.cwi.reset.arielgustavo;
 
-public enum StatusCarreira {
-    EM_ATIVIDADE("Em atividade"),
-    APOSENTADO("Aposentado");
+public enum TipoAtuacao {
+    PRINCIPAL("Principal"),
+    COADJUVANTE("Coadjuvate");
 
     private String descricao;
 
-    StatusCarreira(String descrição) {
+    TipoAtuacao(String descrição) {
         this.descricao = descricao;
     }
 
