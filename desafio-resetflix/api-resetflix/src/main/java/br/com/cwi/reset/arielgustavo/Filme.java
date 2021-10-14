@@ -7,7 +7,7 @@ public class Filme {
     private Integer id;
     private String nome;
     private LocalDate anoLancamento;
-    private Object capaFilme;
+    private String capaFilme;
     private List<Genero> generos;
     private Diretor diretor;
     private List<PersonagemAtor> personagens;
