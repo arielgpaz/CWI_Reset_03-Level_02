@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Aplicacao {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidArgumentsExceptions {
         FakeDatabase fakeDatabase = new FakeDatabase();
 
         AtorService atorService = new AtorService(fakeDatabase);
@@ -17,22 +17,28 @@ public class Aplicacao {
         Integer anoInicioAtividade = 1986;
         AtorRequest atorRequest = new AtorRequest(nome, dataNascimento, statusCarreira, anoInicioAtividade);
 
-        atorService.criarAtor(atorRequest);
+        // Teste para criar atores
+        try {
+            atorService.criarAtor(atorRequest);
+        } catch (InvalidArgumentsExceptions e) {
+            System.out.println(e.getMessage());
+        }
+
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
 
-        System.out.println("Deve conter 1 ator, quantidade encontrada: " + atores.size());
-        System.out.println("Primeiro ator deve ser 'Will Smith', valor encontrado: " + atores.get(0).getNome());
-        System.out.println("------------------");
+//        System.out.println("Deve conter 1 ator, quantidade encontrada: " + atores.size());
+//        System.out.println("Primeiro ator deve ser 'Will Smith', valor encontrado: " + atores.get(0).getNome());
+//        System.out.println("------------------");
 
         // Teste para listar atores
-//        System.out.println("------------------");
-//        try {
-//            String listaAtorEncontrado = atorService.listarAtoresEmAtividade("ill").get(0).getNome();
-//            System.out.println(listaAtorEncontrado);
-//        } catch (InvalidArgumentsExceptions e) {
-//            System.out.println(e.getMessage());
-//        }
+        System.out.println("------------------");
+        try {
+            String listaAtorEncontrado = atorService.listarAtoresEmAtividade("ill").get(0).getNome();
+            System.out.println(listaAtorEncontrado);
+        } catch (InvalidArgumentsExceptions e) {
+            System.out.println(e.getMessage());
+        }
 
         // Teste para consultar ator pela id
 //        System.out.println("------------------");
