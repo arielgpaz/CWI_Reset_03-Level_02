@@ -1,5 +1,6 @@
 package br.com.cwi.reset.arielgustavo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,40 @@ public class DiretorService {
         this.fakeDatabase = fakeDatabase;
     }
 
-    public void cadastrarDiretor(DiretorRequest diretorRequest) {
+    public void cadastrarDiretor(DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
+
+        if (diretorRequest.getNome() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
+        }
+
+        if (diretorRequest.getDataNascimento() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {dataNascimento}.");
+        }
+
+        if (diretorRequest.getAnoInicioAtividade() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {anoInicioAtividade}.");
+        }
+
+        if (diretorRequest.getNome().split(" ").length < 2) {
+            throw new InvalidArgumentsExceptions("Deve ser informado no mínimo nome e sobrenome para o ator.");
+        }
+
+        if (diretorRequest.getDataNascimento().isAfter(LocalDate.now())) {
+            throw new InvalidArgumentsExceptions("Não é possível cadastrar atores não nascidos.");
+        }
+
+        if (diretorRequest.getAnoInicioAtividade() < diretorRequest.getDataNascimento().getYear()) {
+            throw new InvalidArgumentsExceptions("Ano de início de atividade inválido para o ator cadastrado.");
+        }
+
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
+
+        for (Diretor diretorCadastrado : diretores) {
+            if (diretorRequest.getNome().equalsIgnoreCase(diretorCadastrado.getNome())) {
+                throw new InvalidArgumentsExceptions("Já existe um ator cadastrado para o nome {nome}.");
+            }
+        }
+
         Diretor diretor = new Diretor((fakeDatabase.recuperaDiretores().size() + 1), diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
         fakeDatabase.persisteDiretor(diretor);
     }

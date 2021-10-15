@@ -1,5 +1,6 @@
 package br.com.cwi.reset.arielgustavo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +16,44 @@ public class AtorService {
     }
 
     // Demais métodos da classe
-    public void criarAtor(AtorRequest atorRequest) {
+    public void criarAtor(AtorRequest atorRequest) throws InvalidArgumentsExceptions {
+
+        if (atorRequest.getNome() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
+        }
+
+        if (atorRequest.getDataNascimento() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {dataNascimento}.");
+        }
+
+        if (atorRequest.getStatusCarreira() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {statusCarreira}.");
+        }
+
+        if (atorRequest.getAnoInicioAtividade() == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {anoInicioAtividade}.");
+        }
+
+        if (atorRequest.getNome().split(" ").length < 2) {
+            throw new InvalidArgumentsExceptions("Deve ser informado no mínimo nome e sobrenome para o ator.");
+        }
+
+        if (atorRequest.getDataNascimento().isAfter(LocalDate.now())) {
+            throw new InvalidArgumentsExceptions("Não é possível cadastrar atores não nascidos.");
+        }
+
+        if (atorRequest.getAnoInicioAtividade() < atorRequest.getDataNascimento().getYear()) {
+            throw new InvalidArgumentsExceptions("Ano de início de atividade inválido para o ator cadastrado.");
+        }
+
+        List<Ator> atores = fakeDatabase.recuperaAtores();
+
+        for (Ator atorCadastrado : atores) {
+            if (atorRequest.getNome().equalsIgnoreCase(atorCadastrado.getNome())) {
+                throw new InvalidArgumentsExceptions("Já existe um ator cadastrado para o nome {nome}.");
+            }
+        }
+
         Ator ator = new Ator((fakeDatabase.recuperaAtores().size() + 1), atorRequest.getNome(),atorRequest.getDataNascimento(), atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
         fakeDatabase.persisteAtor(ator);
     }
@@ -25,12 +63,24 @@ public class AtorService {
         if (atores.isEmpty()) {
             throw new InvalidArgumentsExceptions("Nenhum ator cadastrado, favor cadastar atores.");
         }
-        atores = atores.stream()
-                .filter(ator -> ator.getNome().toUpperCase().contains(filtroNome.toUpperCase()) && ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE))
-                .collect(Collectors.toList());
-        if (atores.isEmpty()) {
-            throw new InvalidArgumentsExceptions(String.format("Ator não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
+        if (filtroNome != null) {
+            atores = atores.stream()
+                    .filter(ator -> ator.getNome().toUpperCase().contains(filtroNome.toUpperCase()) && ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE))
+                    .collect(Collectors.toList());
+            if (atores.isEmpty()) {
+                throw new InvalidArgumentsExceptions(String.format("Ator não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
+            }
+        } else {
+            atores = atores.stream()
+                    .filter(ator -> ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE))
+                    .collect(Collectors.toList());
+            if (atores.isEmpty()) {
+                throw new InvalidArgumentsExceptions(String.format("Ator não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
+            }
         }
+
+
+
         return atores;
     }
 
