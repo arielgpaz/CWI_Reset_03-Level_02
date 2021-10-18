@@ -1,4 +1,6 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.request;
+
+import br.com.cwi.reset.arielgustavo.model.StatusCarreira;
 
 import java.time.LocalDate;
 

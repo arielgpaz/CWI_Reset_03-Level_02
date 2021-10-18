@@ -1,4 +1,4 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.model;
 
 public enum TipoAtuacao {
     PRINCIPAL("Principal"),
@@ -6,7 +6,7 @@ public enum TipoAtuacao {
 
     private String descricao;
 
-    TipoAtuacao(String descrição) {
+    TipoAtuacao(String descricao) {
         this.descricao = descricao;
     }
 

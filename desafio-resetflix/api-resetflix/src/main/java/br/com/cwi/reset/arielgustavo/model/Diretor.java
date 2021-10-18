@@ -1,20 +1,18 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.model;
 
 import java.time.LocalDate;
 
-public class Ator {
+public class Diretor {
 
     private Integer id;
     private String nome;
     private LocalDate dataNascimento;
-    private StatusCarreira statusCarreira;
     private Integer anoInicioAtividade;
 
-    public Ator(Integer id, String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
+    public Diretor(Integer id, String nome, LocalDate dataNascimento, Integer anoInicioAtividade) {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.statusCarreira = statusCarreira;
         this.anoInicioAtividade = anoInicioAtividade;
     }
 
@@ -26,9 +24,6 @@ public class Ator {
     }
     public LocalDate getDataNascimento() {
         return dataNascimento;
-    }
-    public StatusCarreira getStatusCarreira() {
-        return statusCarreira;
     }
     public Integer getAnoInicioAtividade() {
         return anoInicioAtividade;

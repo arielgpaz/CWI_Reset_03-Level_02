@@ -1,10 +1,14 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.service;
+
+import br.com.cwi.reset.arielgustavo.FakeDatabase;
+import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
+import br.com.cwi.reset.arielgustavo.model.Ator;
+import br.com.cwi.reset.arielgustavo.model.StatusCarreira;
+import br.com.cwi.reset.arielgustavo.request.AtorRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AtorService {

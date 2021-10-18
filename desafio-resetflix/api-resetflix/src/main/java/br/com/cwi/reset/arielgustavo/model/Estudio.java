@@ -1,4 +1,4 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.model;
 
 import java.time.LocalDate;
 

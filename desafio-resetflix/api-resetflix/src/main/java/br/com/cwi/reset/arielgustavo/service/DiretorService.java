@@ -1,4 +1,9 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.service;
+
+import br.com.cwi.reset.arielgustavo.FakeDatabase;
+import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
+import br.com.cwi.reset.arielgustavo.model.Diretor;
+import br.com.cwi.reset.arielgustavo.request.DiretorRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

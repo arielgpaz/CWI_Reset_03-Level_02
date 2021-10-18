@@ -1,4 +1,4 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.model;
 
 public class PersonagemAtor {
 

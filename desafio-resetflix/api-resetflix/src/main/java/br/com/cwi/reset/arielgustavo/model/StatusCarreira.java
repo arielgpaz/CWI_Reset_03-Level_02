@@ -1,12 +1,12 @@
-package br.com.cwi.reset.arielgustavo;
+package br.com.cwi.reset.arielgustavo.model;
 
-public enum StatusAtividade {
+public enum StatusCarreira {
     EM_ATIVIDADE("Em atividade"),
-    ENCERRADO("Encerrado");
+    APOSENTADO("Aposentado");
 
     private String descricao;
 
-    StatusAtividade(String descrição) {
+    StatusCarreira(String descricao) {
         this.descricao = descricao;
     }
 
