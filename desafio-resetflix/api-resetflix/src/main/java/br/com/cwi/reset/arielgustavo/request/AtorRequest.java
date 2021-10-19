@@ -21,15 +21,12 @@ public class AtorRequest {
     public String getNome() {
         return nome;
     }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
-
     public StatusCarreira getStatusCarreira() {
         return statusCarreira;
     }
-
     public Integer getAnoInicioAtividade() {
         return anoInicioAtividade;
     }

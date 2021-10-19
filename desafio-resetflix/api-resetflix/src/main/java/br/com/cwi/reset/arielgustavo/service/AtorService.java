@@ -82,9 +82,6 @@ public class AtorService {
                 throw new InvalidArgumentsExceptions(String.format("Ator não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
             }
         }
-
-
-
         return atores;
     }
 
