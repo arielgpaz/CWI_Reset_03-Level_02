@@ -9,57 +9,7 @@ Com a nossa API configurada, vamos começar a mapear nossos serviços, a final j
 
 Vamos as definições de contratos então para nossas funcionalidades já implementadas:
 
-### Alteração classe domínio
-
-#### Filme
-
-- id
-- nome
-- anoLancamento
-- capaFilme
-- List< Genero > generos
-  - ACAO
-  - AVENTURA
-  - COMEDIA
-  - DOCUMENTARIO
-  - DRAMA
-  - ESPIONAGEM
-  - FICCAO_CIENTIFICA
-  - GUERRA
-  - MISTERIO
-  - MUSICAL
-  - POLICIAL
-  - ROMANCE
-  - TERROR
-- Diretor diretor
-- Estudio estudio
-- List< PersonagemAtor > personagens
-- resumo
-
 ### 1. Elenco
-
-#### 1.1. Cadastrar ator
-
-- Assinatura
-    - `POST /atores`
-- Contrato
-    - Classe: AtorController | Retorno: void | Método: criarAtor(AtorRequest atorRequest)
-- Parâmetros de entrada:
-    - AtorRequest
-        - nome*
-        - dataNascimento*
-        - StatusCarreira statusCarreira*
-            - EM_ATIVIDADE
-            - APOSENTADO
-        - anoInicioAtividade*
-- Saída esperada em caso de sucesso:
-    - Status: `201 CREATED`
-    - Body: `N/A`
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Mesmas regras definidas na etapa 1
 
 #### 1.2. Listar atores em atividade
 
@@ -82,77 +32,7 @@ Vamos as definições de contratos então para nossas funcionalidades já implem
 - Regras:
     - Mesmas regras definidas na etapa 1
 
-#### 1.3. Consultar ator
-
-- Assinatura
-    - `GET /atores/{id}`
-- Contrato
-    - Classe: AtorController | Retorno: Ator | Método: consultarAtor(Integer id)
-- Parâmetros de entrada:
-    - id (path parameter)
-- Saída esperada em caso de sucesso:
-    - Status: `200 OK`
-    - Body:
-        - Ator
-            - id
-            - nome
-            - dataNascimento
-            - StatusCarreira statusCarreira
-                - EM_ATIVIDADE
-                - APOSENTADO
-            - anoInicioAtividade
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Mesmas regras definidas na etapa 1
-
-#### 1.4. Todos os atores
-
-- Assinatura
-    - `GET /atores`
-- Contrato
-    - Classe: AtorController | Retorno: List< Ator > | Método: consultarAtores()
-- Parâmetros de entrada:
-    - `N/A`
-- Saída esperada em caso de sucesso:
-    - Status: `200 OK`
-    - Body:
-        - List< Ator >
-            - id
-            - nome
-            - dataNascimento
-            - StatusCarreira statusCarreira
-                - EM_ATIVIDADE
-                - APOSENTADO
-            - anoInicioAtividade
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Mesmas regras definidas na etapa 1
-
 ### 2. Direção
-
-#### 2.1. Cadastrar diretor
-
-- Assinatura
-    - `POST /diretores`
-- Contrato
-    - Classe: DiretorController | Retorno: void | cadastrarDiretor(DiretorRequest diretorRequest)
-- Parâmetros de entrada:
-    - DiretorRequest
-        - nome*
-        - dataNascimento*
-        - anoInicioAtividade*
-- Saída esperada em caso de sucesso:
-    - Status: `201 CREATED`
-    - Body: `N/A`
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Mesmas regras definidas na etapa 1
 
 #### 2.2. Listar diretores
 
@@ -176,60 +56,9 @@ Vamos as definições de contratos então para nossas funcionalidades já implem
 - Regras:
     - Mesmas regras definidas na etapa 1
 
-#### 2.3. Consultar diretor
-
-- Assinatura
-    - `GET /diretores/{id}`
-- Contrato
-    - Classe: DiretorController | Retorno: Diretor | consultarDiretor(Integer id)
-- Parâmetros de entrada:
-    - id (path parameter)
-- Saída esperada em caso de sucesso:
-    - Status: `200 OK`
-    - Body:
-        - Diretor
-            - id
-            - nome
-            - dataNascimento
-            - anoInicioAtividade
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Mesmas regras definidas na etapa 1
-
 ## Acho que ainda está fácil, bora colocar mais lenha nesta fogueira :fire::fire::fire:
 
 ### 3. Estúdio
-
-#### 3.1. Cadastrar Estúdio
-
-- Assinatura
-    - `POST /estudios`
-- Contrato
-    - Classe: EstudioController | Retorno: void | Método: criarEstudio(EstudioRequest estudioRequest)
-- Parâmetros de entrada:
-    - EstudioRequest
-        - nome*
-        - descricao*
-        - dataCriacao*
-        - StatusAtividade statusAtividade*
-            - EM_ATIVIDADE
-            - ENCERRADO
-- Saída esperada em caso de sucesso:
-    - Status: `201 CREATED`
-    - Body: `N/A`
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - Campos com * são campos obrigatórios
-        - Mensagem de erro: "Campo obrigatório não informado. Favor informar o campo {campo}."
-    - Não deve ser permitido cadastrar dois estúdios com o mesmo nome
-        - Mensagem de erro: "Já existe um estúdio cadastrado para o nome {nome}."
-    - A data de criação do estúdio não pode ser superior a data atual
-        - Mensagem de erro: "Não é possível cadastrar estúdios do futuro."
-    - O id do estúdio deve ser gerado automáticamente de forma sequencial
 
 #### 3.2. Listar Estúdio
 
@@ -261,35 +90,6 @@ Vamos as definições de contratos então para nossas funcionalidades já implem
         - Mensagem de erro: "Nenhum estúdio cadastrado, favor cadastar estúdios."
     - Caso não seja encontrado nenhum estúdio com o filtro informado deve retornar erro
         - Mensagem de erro: "Estúdio não encontrato com o filtro {filtro}, favor informar outro filtro."
-
-#### 3.3. Consultar Estúdio
-
-- Assinatura
-    - `GET /estudios/{id}`
-- Contrato
-    - Classe: EstudioController | Retorno: Estudio | Método: consultarEstudio(Integer id)
-- Parâmetros de entrada:
-    - id (path parameter)
-- Saída esperada em caso de sucesso:
-    - Status: `200 OK`
-    - Body:
-        - Estudio
-            - id
-            - nome
-            - descricao
-            - dataCriacao
-            - StatusAtividade statusAtividade
-                - EM_ATIVIDADE
-                - ENCERRADO
-- Saída esperada em caso de erro:
-    - Status: `400 BAD REQUEST`
-    - Body: Conforme padrão de erro apresentado no exemplo
-- Regras:
-    - O filtro id é obrigatório
-        - Mensagem de erro: "Campo obrigatório não informado. Favor informar o campo {campo}."
-    - Deve retornar o estúdio filtrado pelo id
-    - Caso não encontrado o estúdio, deve retornar erro
-        - Mensagem de erro: "Nenhum estúdio encontrado com o parâmetro id={}, favor verifique os parâmetros informados."
 
 ### 4. Filmes
 
