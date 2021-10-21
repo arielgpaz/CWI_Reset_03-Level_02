@@ -5,6 +5,7 @@ import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Estudio;
 import br.com.cwi.reset.arielgustavo.request.EstudioRequest;
 import br.com.cwi.reset.arielgustavo.service.EstudioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +21,15 @@ public class EstudioController {
     }
 
     @PostMapping
-    public void criarEstudio(EstudioRequest estudioRequest) throws InvalidArgumentsExceptions {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criarEstudio(@RequestBody EstudioRequest estudioRequest) throws InvalidArgumentsExceptions {
         this.estudioService.criarEstudio(estudioRequest);
     }
 
-//    @GetMapping
-//    public List<Estudio> consultarEstudios(String filtroNome) {
-//        return null;
-//    }
+    @GetMapping
+    public List<Estudio> consultarEstudios(@RequestParam("filtroNome") String filtroNome) throws InvalidArgumentsExceptions {
+        return estudioService.listarEstudio(filtroNome);
+    }
 
     @GetMapping("/{id}")
     public Estudio consultarEstudio(@PathVariable Integer id) throws InvalidArgumentsExceptions {

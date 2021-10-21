@@ -30,11 +30,15 @@ public class AtorController {
         this.atorService.criarAtor(atorRequest);
     }
 
-//    @GetMapping("/em_atividade")
-//    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam String filtroNome) throws InvalidArgumentsExceptions {
-//
-//        return null;
-//    }
+    @GetMapping("/em_atividade")
+    public List<AtorEmAtividade> listarAtoresEmAtividade(@RequestParam("filtroNome") String filtroNome) throws InvalidArgumentsExceptions {
+        List<Ator> atores = atorService.listarAtoresEmAtividade(filtroNome);
+        List<AtorEmAtividade> atorEmAtividade = new ArrayList<>();
+        for (Ator ator : atores) {
+            atorEmAtividade.add(new AtorEmAtividade(ator.getId(), ator.getNome(), ator.getDataNascimento()));
+        }
+        return atorEmAtividade;
+    }
 
     @GetMapping("/{id}")
     public Ator consultarAtor(@PathVariable Integer id) throws InvalidArgumentsExceptions {

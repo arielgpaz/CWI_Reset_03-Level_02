@@ -5,20 +5,20 @@ import br.com.cwi.reset.arielgustavo.model.TipoAtuacao;
 
 public class PersonagemRequest {
 
-    private Ator ator;
+    private Integer idAtor;
     private String nomePersonagem;
     private String descricaoPersonagem;
     private TipoAtuacao tipoAtuacao;
 
-    public PersonagemRequest(Ator ator, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {
-        this.ator = ator;
+    public PersonagemRequest(Integer idAtor, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {
+        this.idAtor = idAtor;
         this.nomePersonagem = nomePersonagem;
         this.descricaoPersonagem = descricaoPersonagem;
         this.tipoAtuacao = tipoAtuacao;
     }
 
-    public Ator getAtor() {
-        return ator;
+    public Integer getIdAtor() {
+        return idAtor;
     }
     public String getNomePersonagem() {
         return nomePersonagem;

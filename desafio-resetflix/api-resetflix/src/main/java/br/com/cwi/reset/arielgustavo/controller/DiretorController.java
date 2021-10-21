@@ -3,7 +3,6 @@ package br.com.cwi.reset.arielgustavo.controller;
 import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Diretor;
-import br.com.cwi.reset.arielgustavo.request.AtorRequest;
 import br.com.cwi.reset.arielgustavo.request.DiretorRequest;
 import br.com.cwi.reset.arielgustavo.service.DiretorService;
 import org.springframework.http.HttpStatus;
@@ -27,11 +26,10 @@ public class DiretorController {
         this.diretorService.cadastrarDiretor(diretorRequest);
     }
 
-//    @GetMapping
-//    public List<Diretor> listarDiretores( String filtroNome) {
-//
-//        return null;
-//    }
+    @GetMapping
+    public List<Diretor> listarDiretores(@RequestParam("filtroNome") String filtroNome) throws InvalidArgumentsExceptions {
+        return diretorService.listarDiretores(filtroNome);
+    }
 
     @GetMapping("/{id}")
     public Diretor consultarDiretor(@PathVariable Integer id) throws InvalidArgumentsExceptions {
