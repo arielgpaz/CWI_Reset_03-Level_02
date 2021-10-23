@@ -3,11 +3,9 @@ package br.com.cwi.reset.arielgustavo.service;
 import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.*;
-import br.com.cwi.reset.arielgustavo.request.AtorRequest;
 import br.com.cwi.reset.arielgustavo.request.FilmeRequest;
 import br.com.cwi.reset.arielgustavo.request.PersonagemRequest;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,14 +16,14 @@ public class FilmeService {
     private AtorService atorService;
     private DiretorService diretorService;
     private EstudioService estudioService;
-    private PersonagemService personagemService;
+    private PersonagemAtorService personagemAtorService;
 
     public FilmeService(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
         this.atorService = new AtorService(FakeDatabase.getInstance());
         this.diretorService = new DiretorService(FakeDatabase.getInstance());
         this.estudioService = new EstudioService(FakeDatabase.getInstance());
-        this.personagemService = new PersonagemService(FakeDatabase.getInstance());
+        this.personagemAtorService = new PersonagemAtorService(FakeDatabase.getInstance());
     }
 
     public void criarFilme(FilmeRequest filmeRequest) throws InvalidArgumentsExceptions {
@@ -91,7 +89,7 @@ public class FilmeService {
         for (int i = 0; i < filmeRequest.getPersonagens().size(); i++) {
             PersonagemRequest personagemRequestFilme = new PersonagemRequest(filmeRequest.getPersonagens().get(i).getIdAtor(), filmeRequest.getPersonagens().get(i).getNomePersonagem(), filmeRequest.getPersonagens().get(i).getDescricaoPersonagem(), filmeRequest.getPersonagens().get(i).getTipoAtuacao());
             personagens.add(new PersonagemAtor(fakeDatabase.recuperaPersonagens().size() +1, filmeRequest.getPersonagens().get(i).getIdAtor(), filmeRequest.getPersonagens().get(i).getNomePersonagem(), filmeRequest.getPersonagens().get(i).getDescricaoPersonagem(), filmeRequest.getPersonagens().get(i).getTipoAtuacao()));
-            personagemService.criarPersonagem(personagemRequestFilme);
+            personagemAtorService.criarPersonagem(personagemRequestFilme);
         }
 
         Filme filme = new Filme((fakeDatabase.recuperaFilmes().size() + 1), filmeRequest.getNome(),
@@ -116,11 +114,14 @@ public class FilmeService {
             filmeEncontrado = filmes.stream()
                     .filter(filme -> filme.getNome().toUpperCase().contains(nomeFilme.toUpperCase()))
                     .collect(Collectors.toList());
-        }
-        else if (nomeDiretor != null) {
+            return filmeEncontrado;
+
+        } else if (nomeDiretor != null) {
             filmeEncontrado = filmes.stream()
                     .filter(filme -> filme.getDiretor().getNome().toUpperCase().contains(nomeDiretor.toUpperCase()))
                     .collect(Collectors.toList());
+            return filmeEncontrado;
+
         } else if (nomePersonagem != null) {
 
             List<PersonagemAtor> personagens = new ArrayList<>(fakeDatabase.recuperaPersonagens());
@@ -133,6 +134,7 @@ public class FilmeService {
                     break;
                 }
             }
+            return filmeEncontrado;
 
         } else {
             List<Ator> atores = new ArrayList<>(fakeDatabase.recuperaAtores());
