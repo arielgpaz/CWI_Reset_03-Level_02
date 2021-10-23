@@ -4,12 +4,16 @@ import br.com.cwi.reset.projeto1.domain.Filme;
 import br.com.cwi.reset.projeto1.exception.FilmeJaExistenteException;
 import br.com.cwi.reset.projeto1.exception.FilmeNaoExistenteException;
 import br.com.cwi.reset.projeto1.repository.FilmeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FilmeService {
 
-    private FilmeRepository repository = new FilmeRepository();
+    @Autowired
+    private FilmeRepository repository;
 
     public Filme salvar(Filme filme) throws FilmeJaExistenteException {
        Filme filmeJaExistente = repository.findByNome(filme.getNome());
@@ -42,6 +46,6 @@ public class FilmeService {
         if (filme == null) {
             throw new FilmeNaoExistenteException("Filme com o nome " + filme.getNome() + " não existe");
         }
-        return repository.update(filme);
+        return repository.save(filme);
     }
 }

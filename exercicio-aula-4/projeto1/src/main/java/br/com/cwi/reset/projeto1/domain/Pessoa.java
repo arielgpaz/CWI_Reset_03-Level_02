@@ -1,9 +1,18 @@
 package br.com.cwi.reset.projeto1.domain;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.Period;
 
 public abstract class Pessoa {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private Long id;
 
     private String nome;
     private LocalDate dataNascimento;
