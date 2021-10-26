@@ -22,28 +22,8 @@ public class AtorService {
     // Demais métodos da classe
     public void criarAtor(AtorRequest atorRequest) throws InvalidArgumentsExceptions {
 
-        if (atorRequest.getNome() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
-        }
-
-        if (atorRequest.getDataNascimento() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {dataNascimento}.");
-        }
-
-        if (atorRequest.getStatusCarreira() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {statusCarreira}.");
-        }
-
-        if (atorRequest.getAnoInicioAtividade() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {anoInicioAtividade}.");
-        }
-
         if (atorRequest.getNome().split(" ").length < 2) {
             throw new InvalidArgumentsExceptions("Deve ser informado no mínimo nome e sobrenome para o ator.");
-        }
-
-        if (atorRequest.getDataNascimento().isAfter(LocalDate.now())) {
-            throw new InvalidArgumentsExceptions("Não é possível cadastrar atores não nascidos.");
         }
 
         if (atorRequest.getAnoInicioAtividade() < atorRequest.getDataNascimento().getYear()) {
@@ -51,7 +31,6 @@ public class AtorService {
         }
 
         List<Ator> atores = fakeDatabase.recuperaAtores();
-
         for (Ator atorCadastrado : atores) {
             if (atorRequest.getNome().equalsIgnoreCase(atorCadastrado.getNome())) {
                 throw new InvalidArgumentsExceptions("Já existe um ator cadastrado para o nome {nome}.");

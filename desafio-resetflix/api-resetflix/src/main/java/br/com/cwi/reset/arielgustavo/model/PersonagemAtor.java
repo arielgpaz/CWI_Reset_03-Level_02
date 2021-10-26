@@ -1,11 +1,22 @@
 package br.com.cwi.reset.arielgustavo.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
 public class PersonagemAtor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {idAtor}.")
     private Integer idAtor;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {nomePersonagem}.")
     private String nomePersonagem;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {descricaoPersonagem}.")
     private String descricaoPersonagem;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {tipoAtuacao}.")
     private TipoAtuacao tipoAtuacao;
 
     public PersonagemAtor(Integer id, Integer idAtor, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {

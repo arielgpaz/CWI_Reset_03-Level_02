@@ -24,27 +24,6 @@ public class EstudioService {
 
     public void criarEstudio(EstudioRequest estudioRequest) throws InvalidArgumentsExceptions {
 
-        if (estudioRequest.getNome() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
-        }
-
-        if (estudioRequest.getDataCriacao() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {dataCriacao}.");
-        }
-
-        if (estudioRequest.getDescricao() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {descricao}.");
-        }
-
-        if (estudioRequest.getStatusAtividade() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {statusAtividade}.");
-        }
-
-
-        if (estudioRequest.getDataCriacao().isAfter(LocalDate.now())) {
-            throw new InvalidArgumentsExceptions("Não é possível cadastrar estúdios do futuro.");
-        }
-
         List<Estudio> estudios = fakeDatabase.recuperaEstudios();
 
         for (Estudio estudioCadastrado : estudios) {

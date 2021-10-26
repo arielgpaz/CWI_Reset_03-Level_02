@@ -18,22 +18,6 @@ public class PersonagemAtorService {
 
     public void criarPersonagem(PersonagemRequest personagemRequest) throws InvalidArgumentsExceptions {
 
-        if (personagemRequest.getIdAtor() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {idAtor}.");
-        }
-
-        if (personagemRequest.getNomePersonagem() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nomePersonagem}.");
-        }
-
-        if (personagemRequest.getDescricaoPersonagem() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {descricaoPersonagem}.");
-        }
-
-        if (personagemRequest.getTipoAtuacao() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {tipoAtuacao}.");
-        }
-
         List<PersonagemAtor> personagens = fakeDatabase.recuperaPersonagens();
 
         for (PersonagemAtor personagemCadastrado : personagens) {

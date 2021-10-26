@@ -20,24 +20,8 @@ public class DiretorService {
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
 
-        if (diretorRequest.getNome() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
-        }
-
-        if (diretorRequest.getDataNascimento() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {dataNascimento}.");
-        }
-
-        if (diretorRequest.getAnoInicioAtividade() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {anoInicioAtividade}.");
-        }
-
         if (diretorRequest.getNome().split(" ").length < 2) {
             throw new InvalidArgumentsExceptions("Deve ser informado no mínimo nome e sobrenome para o ator.");
-        }
-
-        if (diretorRequest.getDataNascimento().isAfter(LocalDate.now())) {
-            throw new InvalidArgumentsExceptions("Não é possível cadastrar atores não nascidos.");
         }
 
         if (diretorRequest.getAnoInicioAtividade() < diretorRequest.getDataNascimento().getYear()) {

@@ -28,38 +28,6 @@ public class FilmeService {
 
     public void criarFilme(FilmeRequest filmeRequest) throws InvalidArgumentsExceptions {
 
-        if (filmeRequest.getNome() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {nome}.");
-        }
-
-        if (filmeRequest.getAnoLancamento() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {anoLancamento}.");
-        }
-
-        if (filmeRequest.getCapaFilme() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {capaFilme}.");
-        }
-
-        if (filmeRequest.getGeneros() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {genero}.");
-        }
-
-        if (filmeRequest.getIdDiretor() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {idDiretor}.");
-        }
-
-        if (filmeRequest.getIdEstudio() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {idEstudio}.");
-        }
-
-        if (filmeRequest.getResumo() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {resumo}.");
-        }
-
-        if (filmeRequest.getPersonagens() == null) {
-            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {personagens}.");
-        }
-
         List<Estudio> estudios = fakeDatabase.recuperaEstudios();
         boolean idEstudioExiste = false;
         for (Estudio estudio : estudios) {
