@@ -1,22 +1,19 @@
 package br.com.cwi.reset.arielgustavo.service;
 
-import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Diretor;
+import br.com.cwi.reset.arielgustavo.repository.DiretorRepository;
 import br.com.cwi.reset.arielgustavo.request.DiretorRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
 public class DiretorService {
 
-    private FakeDatabase fakeDatabase;
-
-    public DiretorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    @Autowired
+    private DiretorRepository diretorRepository;
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
 
@@ -28,44 +25,41 @@ public class DiretorService {
             throw new InvalidArgumentsExceptions("Ano de início de atividade inválido para o ator cadastrado.");
         }
 
-        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
-
-        for (Diretor diretorCadastrado : diretores) {
-            if (diretorRequest.getNome().equalsIgnoreCase(diretorCadastrado.getNome())) {
-                throw new InvalidArgumentsExceptions("Já existe um ator cadastrado para o nome {nome}.");
-            }
+        Diretor diretorJaExistente = diretorRepository.findByNomeIgnoringCase(diretorRequest.getNome());
+        if (diretorJaExistente != null) {
+            throw new InvalidArgumentsExceptions("Já existe um ator cadastrado para o nome {nome}.");
         }
 
-        Diretor diretor = new Diretor((fakeDatabase.recuperaDiretores().size() + 1), diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
-        fakeDatabase.persisteDiretor(diretor);
+        Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
+        diretorRepository.save(diretor);
     }
 
     public List<Diretor> listarDiretores(String filtroNome) throws InvalidArgumentsExceptions {
-        List<Diretor> diretores = new ArrayList<>(fakeDatabase.recuperaDiretores());
-        if (diretores.isEmpty()) {
-            throw new InvalidArgumentsExceptions("Nenhum diretor cadastrado, favor cadastar diretores.");
+
+        if(filtroNome != null) {
+            List<Diretor> diretores = diretorRepository.findByNomeContainsIgnoringCase(filtroNome);
+            if (diretores == null) {
+                throw new InvalidArgumentsExceptions(String.format("Diretor não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
+            }
+            return diretores;
+        } else {
+            List<Diretor> diretores = diretorRepository.findAll();
+            if (diretores == null) {
+                throw new InvalidArgumentsExceptions("Nenhum diretor cadastrado, favor cadastar diretores.");
+            }
+            return diretores;
         }
-        diretores = diretores.stream()
-                .filter(ator -> ator.getNome().toUpperCase().contains(filtroNome.toUpperCase()))
-                .collect(Collectors.toList());
-        if (diretores.isEmpty()) {
-            throw new InvalidArgumentsExceptions(String.format("Diretor não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
-        }
-        return diretores;
     }
 
     public Diretor consultarDiretor(Integer id) throws InvalidArgumentsExceptions {
         if (id != null) {
-            List<Diretor> diretores = new ArrayList<>(fakeDatabase.recuperaDiretores());
-            for (Diretor diretor : diretores) {
-                if (id.equals(diretor.getId())) {
-                    return diretor;
-                }
+            Diretor diretor = diretorRepository.findByIdEquals(id);
+            if (diretor == null) {
+                throw new InvalidArgumentsExceptions(String.format("Nenhum diretor encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", id));
             }
-            throw new InvalidArgumentsExceptions(String.format("Nenhum diretor encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", id));
+            return diretor;
         } else {
             throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {id}.");
         }
-
     }
 }

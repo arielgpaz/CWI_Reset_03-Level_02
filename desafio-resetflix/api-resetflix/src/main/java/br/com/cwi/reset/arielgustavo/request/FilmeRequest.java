@@ -1,25 +1,33 @@
 package br.com.cwi.reset.arielgustavo.request;
 
-import br.com.cwi.reset.arielgustavo.model.Diretor;
-import br.com.cwi.reset.arielgustavo.model.Estudio;
 import br.com.cwi.reset.arielgustavo.model.Genero;
-import br.com.cwi.reset.arielgustavo.model.PersonagemAtor;
 
-import java.time.LocalDate;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class FilmeRequest {
 
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {nome}.")
     private String nome;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {anoLancamento}.")
     private Integer anoLancamento;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {capaFilme}.")
     private String capaFilme;
+    @ElementCollection
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {generos}.")
     private List<Genero> generos;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {diretor}.")
     private Integer idDiretor;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {estudio}.")
     private Integer idEstudio;
-    private List<PersonagemAtor> personagens;
+    @OneToMany
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {personagens}.")
+    private List<PersonagemRequest> personagens;
+    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {resumo}.")
     private String resumo;
 
-    public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Integer idDiretor, Integer idEstudio, List<PersonagemAtor> personagens, String resumo) {
+    public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos, Integer idDiretor, Integer idEstudio, List<PersonagemRequest> personagens, String resumo) {
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
@@ -48,7 +56,7 @@ public class FilmeRequest {
     public Integer getIdEstudio() {
         return idEstudio;
     }
-    public List<PersonagemAtor> getPersonagens() {
+    public List<PersonagemRequest> getPersonagens() {
         return personagens;
     }
     public String getResumo() {

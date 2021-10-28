@@ -6,28 +6,27 @@ import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "atores")
 public class Ator {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {nome}.")
+
     private String nome;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {dataNascimento}.")
-    @Past
     private LocalDate dataNascimento;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {statusCarreira}.")
     private StatusCarreira statusCarreira;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {anoInicioAtividade}.")
     private Integer anoInicioAtividade;
 
-    public Ator(Integer id, String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
-        this.id = id;
+    public Ator(String nome, LocalDate dataNascimento, StatusCarreira statusCarreira, Integer anoInicioAtividade) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.statusCarreira = statusCarreira;
         this.anoInicioAtividade = anoInicioAtividade;
+    }
+
+    public Ator() {
     }
 
     public Integer getId() {
@@ -44,5 +43,21 @@ public class Ator {
     }
     public Integer getAnoInicioAtividade() {
         return anoInicioAtividade;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+    public void setStatusCarreira(StatusCarreira statusCarreira) {
+        this.statusCarreira = statusCarreira;
+    }
+    public void setAnoInicioAtividade(Integer anoInicioAtividade) {
+        this.anoInicioAtividade = anoInicioAtividade;
     }
 }

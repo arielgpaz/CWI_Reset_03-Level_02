@@ -1,74 +1,60 @@
 package br.com.cwi.reset.arielgustavo.service;
 
-import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
-import br.com.cwi.reset.arielgustavo.model.Ator;
 import br.com.cwi.reset.arielgustavo.model.Estudio;
 import br.com.cwi.reset.arielgustavo.model.StatusAtividade;
-import br.com.cwi.reset.arielgustavo.model.StatusCarreira;
-import br.com.cwi.reset.arielgustavo.request.AtorRequest;
+import br.com.cwi.reset.arielgustavo.repository.EstudioRepository;
 import br.com.cwi.reset.arielgustavo.request.EstudioRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Service
 public class EstudioService {
 
-    private FakeDatabase fakeDatabase;
-
-    public EstudioService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    @Autowired
+    private EstudioRepository estudioRepository;
 
     public void criarEstudio(EstudioRequest estudioRequest) throws InvalidArgumentsExceptions {
 
-        List<Estudio> estudios = fakeDatabase.recuperaEstudios();
-
-        for (Estudio estudioCadastrado : estudios) {
-            if (estudioRequest.getNome().equalsIgnoreCase(estudioCadastrado.getNome())) {
-                throw new InvalidArgumentsExceptions(String.format("Já existe um estúdio cadastrado para o nome %s", estudioRequest.getNome()));
-            }
+        Estudio estudioCadastrado = estudioRepository.findByNomeIgnoringCase(estudioRequest.getNome());
+        if (estudioCadastrado != null) {
+            throw new InvalidArgumentsExceptions(String.format("Já existe um estúdio cadastrado para o nome %s", estudioRequest.getNome()));
         }
 
-        Estudio estudio = new Estudio((fakeDatabase.recuperaEstudios().size() + 1), estudioRequest.getNome(),estudioRequest.getDescricao(), estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
-        fakeDatabase.persisteEstudio(estudio);
+        Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(), estudioRequest.getStatusAtividade());
+        estudioRepository.save(estudio);
     }
 
     public List<Estudio> listarEstudio(String filtroNome) throws InvalidArgumentsExceptions {
-        List<Estudio> estudios = new ArrayList<>(fakeDatabase.recuperaEstudios());
-        if (estudios.isEmpty()) {
+        Iterable<Estudio> estudios = estudioRepository.findAll();
+        if (estudios == null) {
             throw new InvalidArgumentsExceptions("Nenhum estúdio cadastrado, favor cadastar estúdios.");
         }
         if (filtroNome != null) {
-            estudios = estudios.stream()
-                    .filter(estudio -> estudio.getNome().toUpperCase().contains(filtroNome.toUpperCase()))
-                    .collect(Collectors.toList());
-            if (estudios.isEmpty()) {
+            List<Estudio> estudio = estudioRepository.findByNomeContainsIgnoringCase(filtroNome);
+            if (estudio.isEmpty()) {
                 throw new InvalidArgumentsExceptions(String.format("Estúdio não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
             }
+            return estudio;
         }
         else {
-            estudios = estudios.stream()
-                    .filter(estudio -> estudio.getStatusAtividade().equals(StatusAtividade.EM_ATIVIDADE))
-                    .collect(Collectors.toList());
-            if (estudios.isEmpty()) {
+            List<Estudio> estudiosEmAtividade = estudioRepository.findByStatusAtividade(StatusAtividade.EM_ATIVIDADE);
+            if (estudios == null) {
                 throw new InvalidArgumentsExceptions(String.format("Estúdio não encontrato com o filtro {%s}, favor informar outro filtro.", filtroNome));
             }
+            return estudiosEmAtividade;
         }
-        return estudios;
     }
 
     public Estudio consultarEstudio(Integer id) throws InvalidArgumentsExceptions {
         if (id != null) {
-            List<Estudio> estudios = new ArrayList<>(fakeDatabase.recuperaEstudios());
-            for (Estudio estudio : estudios) {
-                if(id.equals(estudio.getId())){
-                    return estudio;
-                }
+            Estudio estudio = estudioRepository.findByIdEquals(id);
+            if (estudio == null) {
+                throw new InvalidArgumentsExceptions(String.format("Nenhum estúdio encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", id));
             }
-            throw new InvalidArgumentsExceptions(String.format("Nenhum estúdio encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", id));
+            return estudio;
         } else {
             throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {id}.");
         }

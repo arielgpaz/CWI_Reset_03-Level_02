@@ -4,34 +4,35 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "personagens")
 public class PersonagemAtor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {idAtor}.")
-    private Integer idAtor;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {nomePersonagem}.")
+    @ManyToOne
+    @JoinColumn(name = "id_ator")
+    private Ator ator;
     private String nomePersonagem;
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {descricaoPersonagem}.")
     private String descricaoPersonagem;
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Campo obrigatório não informado. Favor informar o campo {tipoAtuacao}.")
     private TipoAtuacao tipoAtuacao;
 
-    public PersonagemAtor(Integer id, Integer idAtor, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {
-        this.id = id;
-        this.idAtor = idAtor;
+    public PersonagemAtor(Ator ator, String nomePersonagem, String descricaoPersonagem, TipoAtuacao tipoAtuacao) {
+        this.ator = ator;
         this.nomePersonagem = nomePersonagem;
         this.descricaoPersonagem = descricaoPersonagem;
         this.tipoAtuacao = tipoAtuacao;
     }
 
+    public PersonagemAtor() {
+    }
+
     public Integer getId() {
         return id;
     }
-    public Integer getIdAtor() {
-        return idAtor;
+    public Ator getAtor() {
+        return ator;
     }
     public String getNomePersonagem() {
         return nomePersonagem;

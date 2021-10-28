@@ -1,32 +1,31 @@
 package br.com.cwi.reset.arielgustavo.controller;
 
-import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Ator;
 import br.com.cwi.reset.arielgustavo.request.AtorRequest;
 import br.com.cwi.reset.arielgustavo.response.AtorEmAtividade;
 import br.com.cwi.reset.arielgustavo.service.AtorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/atores")
 public class AtorController {
 
+    @Autowired
     private AtorService atorService;
-
-    public AtorController() {
-        this.atorService = new AtorService(FakeDatabase.getInstance());
-    }
 
     //demais métodos
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarAtor(@RequestBody AtorRequest atorRequest) throws InvalidArgumentsExceptions {
+    public void criarAtor(@RequestBody @Valid AtorRequest atorRequest) throws InvalidArgumentsExceptions {
         this.atorService.criarAtor(atorRequest);
     }
 

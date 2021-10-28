@@ -1,28 +1,26 @@
 package br.com.cwi.reset.arielgustavo.controller;
 
-import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Diretor;
 import br.com.cwi.reset.arielgustavo.request.DiretorRequest;
 import br.com.cwi.reset.arielgustavo.service.DiretorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/diretores")
 public class DiretorController {
 
+    @Autowired
     private DiretorService diretorService;
-
-    public DiretorController() {
-        this.diretorService = new DiretorService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarDiretor(@RequestBody DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
+    public void criarDiretor(@RequestBody @Valid DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
         this.diretorService.cadastrarDiretor(diretorRequest);
     }
 

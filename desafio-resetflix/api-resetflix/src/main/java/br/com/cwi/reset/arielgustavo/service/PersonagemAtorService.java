@@ -1,32 +1,46 @@
 package br.com.cwi.reset.arielgustavo.service;
 
-import br.com.cwi.reset.arielgustavo.FakeDatabase;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
-import br.com.cwi.reset.arielgustavo.model.Diretor;
+import br.com.cwi.reset.arielgustavo.model.Ator;
 import br.com.cwi.reset.arielgustavo.model.PersonagemAtor;
+import br.com.cwi.reset.arielgustavo.repository.AtorRepository;
+import br.com.cwi.reset.arielgustavo.repository.PersonagemAtorRepository;
 import br.com.cwi.reset.arielgustavo.request.PersonagemRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PersonagemAtorService {
 
-    private FakeDatabase fakeDatabase;
+    @Autowired
+    private PersonagemAtorRepository personagemAtorRepository;
+    @Autowired
+    private AtorRepository atorRepository;
 
-    public PersonagemAtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    public PersonagemAtor criarPersonagem(PersonagemRequest personagemRequest) throws InvalidArgumentsExceptions {
 
-    public void criarPersonagem(PersonagemRequest personagemRequest) throws InvalidArgumentsExceptions {
-
-        List<PersonagemAtor> personagens = fakeDatabase.recuperaPersonagens();
-
-        for (PersonagemAtor personagemCadastrado : personagens) {
-            if (personagemRequest.getNomePersonagem().equalsIgnoreCase(personagemCadastrado.getNomePersonagem()) && personagemRequest.getIdAtor().equals(personagemCadastrado.getIdAtor())) {
-                throw new InvalidArgumentsExceptions("Não é permitido informar o mesmo ator/personagem mais de uma vez para o mesmo filme.");
-            }
+        Ator ator = atorRepository.findByIdEquals(personagemRequest.getIdAtor());
+        if (ator == null) {
+            throw new InvalidArgumentsExceptions("Nenhum ator encontrado com o parâmetro id={" + personagemRequest.getIdAtor() +"}, favor verifique os parâmetros informados.");
         }
 
-        PersonagemAtor personagem = new PersonagemAtor(fakeDatabase.recuperaPersonagens().size() +1, personagemRequest.getIdAtor(),personagemRequest.getNomePersonagem(), personagemRequest.getDescricaoPersonagem(), personagemRequest.getTipoAtuacao());
-        fakeDatabase.persistePersonagem(personagem);
+        PersonagemAtor personagem = new PersonagemAtor(ator, personagemRequest.getNomePersonagem(), personagemRequest.getDescricaoPersonagem(), personagemRequest.getTipoAtuacao());
+
+        List<PersonagemAtor> personagensCadastrados = personagemAtorRepository.findAll();
+        boolean personagemJaCadastrado = false;
+        Integer id = 0;
+        for (PersonagemAtor personagemCadastrado : personagensCadastrados) {
+            if (personagemCadastrado.getNomePersonagem().equals(personagem.getNomePersonagem()) && personagemCadastrado.getAtor().equals(personagem.getAtor())) {
+                personagemJaCadastrado = true;
+                id = personagemCadastrado.getId();
+            }
+        }
+        if (!personagemJaCadastrado) {
+            return personagemAtorRepository.save(personagem);
+        } else {
+            return personagemAtorRepository.findByIdEquals(id);
+        }
     }
 }
