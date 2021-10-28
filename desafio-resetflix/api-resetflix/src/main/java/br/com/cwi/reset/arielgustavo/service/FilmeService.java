@@ -83,7 +83,14 @@ public class FilmeService {
         return filmeEncontrado;
     }
 
-    public void removerFilme(Integer id) {
-        filmeRepository.deleteById(id);
+    public void removerFilme(Integer id) throws InvalidArgumentsExceptions {
+        if (id == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {id}.");
+        }
+        Filme filmeComId = filmeRepository.findByIdEquals(id);
+        if (filmeComId == null) {
+            throw new InvalidArgumentsExceptions("Nenhum filme encontrado com o parâmetro id={" + id + "}, favor verifique os parâmetros informados.");
+        }
+        filmeRepository.delete(filmeComId);
     }
 }

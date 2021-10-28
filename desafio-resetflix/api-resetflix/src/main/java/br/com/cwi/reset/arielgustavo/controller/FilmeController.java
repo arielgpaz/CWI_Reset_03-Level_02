@@ -31,7 +31,7 @@ FilmeController {
     }
 
     @DeleteMapping("/{id}")
-    public void removerFilme(@PathVariable Integer id) {
+    public void removerFilme(@PathVariable Integer id) throws InvalidArgumentsExceptions {
         filmeService.removerFilme(id);
     }
 }
