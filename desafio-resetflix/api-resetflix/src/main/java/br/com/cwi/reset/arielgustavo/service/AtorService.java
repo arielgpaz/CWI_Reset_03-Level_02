@@ -2,8 +2,10 @@ package br.com.cwi.reset.arielgustavo.service;
 
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Ator;
+import br.com.cwi.reset.arielgustavo.model.Filme;
 import br.com.cwi.reset.arielgustavo.model.StatusCarreira;
 import br.com.cwi.reset.arielgustavo.repository.AtorRepository;
+import br.com.cwi.reset.arielgustavo.repository.FilmeRepository;
 import br.com.cwi.reset.arielgustavo.request.AtorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class AtorService {
 
     @Autowired
     private AtorRepository atorRepository;
+    @Autowired
+    private FilmeRepository filmeRepository;
 
     // Demais métodos da classe
     public void criarAtor(AtorRequest atorRequest) throws InvalidArgumentsExceptions {
@@ -77,5 +81,32 @@ public class AtorService {
             throw new InvalidArgumentsExceptions("Nenhum ator cadastrado, favor cadastar atores.");
         }
         return atores;
+    }
+
+    public void atualizarAtor(Integer id, AtorRequest atorRequest) throws InvalidArgumentsExceptions {
+        if (id == null) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {id}.");
+        }
+
+        Ator atorJaExistente = atorRepository.findByIdEquals(id);
+        if (atorJaExistente == null) {
+            throw new InvalidArgumentsExceptions(String.format("Nenhum ator encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", id));
+        }
+        atorRepository.save(atorJaExistente);
+    }
+
+    public void removerAtor(Integer id) throws InvalidArgumentsExceptions {
+        if (id == null ) {
+            throw new InvalidArgumentsExceptions("Campo obrigatório não informado. Favor informar o campo {id}.");
+        }
+        Ator atorJaExistente = atorRepository.findByIdEquals(id);
+        if(atorJaExistente == null) {
+            throw new InvalidArgumentsExceptions("Nenhum diretor encontrado com o parâmetro id={" + id + "}, favor verifique os parâmetros informados.");
+        }
+        List<Filme> filmeDirigidoPeloDiretorProcurado = filmeRepository.findByDiretorNomeContainsIgnoringCase(atorJaExistente.getNome());
+        if (!filmeDirigidoPeloDiretorProcurado.isEmpty()) {
+            throw new InvalidArgumentsExceptions( "Este ator está vinculado a um ou mais personagens, para remover o ator é necessário remover os seus personagens de atuação.");
+        }
+        atorRepository.delete(atorJaExistente);
     }
 }

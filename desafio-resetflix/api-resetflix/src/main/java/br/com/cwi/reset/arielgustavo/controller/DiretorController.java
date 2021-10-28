@@ -33,4 +33,14 @@ public class DiretorController {
     public Diretor consultarDiretor(@PathVariable Integer id) throws InvalidArgumentsExceptions {
         return diretorService.consultarDiretor(id);
     }
+
+    @PutMapping("/{id}")
+    public void atualizarDiretor(@PathVariable Integer id, @RequestBody DiretorRequest diretorRequest) throws InvalidArgumentsExceptions {
+        diretorService.atualizarDiretor(id, diretorRequest);
+    }
+
+    @DeleteMapping("?/{id}")
+    public void removerDiretores(@PathVariable Integer id) throws InvalidArgumentsExceptions {
+        diretorService.removerDiretor(id);
+    }
 }

@@ -29,4 +29,9 @@ FilmeController {
     public List<Filme> consultarFilmes(@RequestParam String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws InvalidArgumentsExceptions {
         return filmeService.consultarFilmes(nomeFilme, nomeDiretor, nomePersonagem, nomeAtor);
     }
+
+    @DeleteMapping("/{id}")
+    public void removerFilme(@PathVariable Integer id) {
+        filmeService.removerFilme(id);
+    }
 }

@@ -3,6 +3,7 @@ package br.com.cwi.reset.arielgustavo.controller;
 import br.com.cwi.reset.arielgustavo.exception.InvalidArgumentsExceptions;
 import br.com.cwi.reset.arielgustavo.model.Ator;
 import br.com.cwi.reset.arielgustavo.request.AtorRequest;
+import br.com.cwi.reset.arielgustavo.request.DiretorRequest;
 import br.com.cwi.reset.arielgustavo.response.AtorEmAtividade;
 import br.com.cwi.reset.arielgustavo.service.AtorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,13 @@ public class AtorController {
         return atorService.consultarAtores();
     }
 
+    @PutMapping("/{id}")
+    public void atualizarAtor(@PathVariable Integer id, @RequestBody AtorRequest  atorRequest) throws InvalidArgumentsExceptions {
+        atorService.atualizarAtor(id, atorRequest);
+    }
 
+    @DeleteMapping("?/{id}")
+    public void removerAtor(@PathVariable Integer id) throws InvalidArgumentsExceptions {
+        atorService.removerAtor(id);
+    }
 }

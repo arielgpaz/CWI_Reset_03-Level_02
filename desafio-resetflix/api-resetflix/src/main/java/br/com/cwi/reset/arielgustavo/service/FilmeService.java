@@ -65,7 +65,7 @@ public class FilmeService {
             throw new InvalidArgumentsExceptions("Nenhum filme cadastrado, favor cadastar filmes.");
         }
 
-        List<Filme> filmeEncontrado = new ArrayList<>();
+        List<Filme> filmeEncontrado;
         if (!nomeFilme.isEmpty()) {
             filmeEncontrado = filmeRepository.findByNomeContainsIgnoringCase(nomeFilme);
         } else if (!nomeDiretor.isEmpty()) {
@@ -83,4 +83,7 @@ public class FilmeService {
         return filmeEncontrado;
     }
 
+    public void removerFilme(Integer id) {
+        filmeRepository.deleteById(id);
+    }
 }
