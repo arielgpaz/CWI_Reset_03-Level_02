@@ -1,9 +1,9 @@
 package br.com.cwi.reset.arielgustavo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "filmes")
@@ -70,5 +70,18 @@ public class Filme {
     }
     public String getResumo() {
         return resumo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Filme filme = (Filme) o;
+        return Objects.equals(id, filme.id) && Objects.equals(nome, filme.nome) && Objects.equals(anoLancamento, filme.anoLancamento) && Objects.equals(capaFilme, filme.capaFilme) && Objects.equals(generos, filme.generos) && Objects.equals(estudio, filme.estudio) && Objects.equals(diretor, filme.diretor) && Objects.equals(personagens, filme.personagens) && Objects.equals(resumo, filme.resumo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, anoLancamento, capaFilme, generos, estudio, diretor, personagens, resumo);
     }
 }

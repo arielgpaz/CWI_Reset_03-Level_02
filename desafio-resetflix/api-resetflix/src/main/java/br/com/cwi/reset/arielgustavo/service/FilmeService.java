@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class FilmeService {
@@ -39,7 +41,16 @@ public class FilmeService {
             throw new InvalidArgumentsExceptions(String.format("Nenhum diretor encontrado com o parâmetro id={%d}, favor verifique os parâmetros informados.", filmeRequest.getIdDiretor()));
         }
 
-
+        Set<Genero> generoSet = new HashSet<>();
+        List<Genero> generos = new ArrayList<>();
+        for (Genero request : filmeRequest.getGeneros()) {
+            if (generoSet.contains(request)) {
+                throw new InvalidArgumentsExceptions("Não é permitido informar o mesmo gênero mais de uma vez para o mesmo filme.");
+            } else {
+                generoSet.add(request);
+            }
+            generos.add(request);
+        }
 
         List<PersonagemAtor> personagens = new ArrayList<>();
         for (int i = 0; i < filmeRequest.getPersonagens().size(); i++) {

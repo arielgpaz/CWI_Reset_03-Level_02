@@ -1,7 +1,7 @@
 package br.com.cwi.reset.arielgustavo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "personagens")
@@ -42,5 +42,18 @@ public class PersonagemAtor {
     }
     public TipoAtuacao getTipoAtuacao() {
         return tipoAtuacao;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonagemAtor that = (PersonagemAtor) o;
+        return Objects.equals(id, that.id) && Objects.equals(ator, that.ator) && Objects.equals(nomePersonagem, that.nomePersonagem) && Objects.equals(descricaoPersonagem, that.descricaoPersonagem) && tipoAtuacao == that.tipoAtuacao;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ator, nomePersonagem, descricaoPersonagem, tipoAtuacao);
     }
 }

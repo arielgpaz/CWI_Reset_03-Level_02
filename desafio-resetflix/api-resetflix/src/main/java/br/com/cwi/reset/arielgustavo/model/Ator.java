@@ -1,9 +1,8 @@
 package br.com.cwi.reset.arielgustavo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "atores")
@@ -59,5 +58,18 @@ public class Ator {
     }
     public void setAnoInicioAtividade(Integer anoInicioAtividade) {
         this.anoInicioAtividade = anoInicioAtividade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ator ator = (Ator) o;
+        return Objects.equals(id, ator.id) && Objects.equals(nome, ator.nome) && Objects.equals(dataNascimento, ator.dataNascimento) && statusCarreira == ator.statusCarreira && Objects.equals(anoInicioAtividade, ator.anoInicioAtividade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, dataNascimento, statusCarreira, anoInicioAtividade);
     }
 }
